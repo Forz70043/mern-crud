@@ -1,21 +1,22 @@
 const db = require("../models");
 const Tutorial = db.tutorials;
 const Comment = db.comments;
+const Tag = db.tag;
 
 
-exports.createTutorial = (tutorial) => {
-    return Tutorial.create({
-      title: tutorial.title,
-      description: tutorial.description,
-    })
+exports.create = (tutorial) => {
+  return Tutorial.create({
+    title: tutorial.title,
+    description: tutorial.description,
+  })
     .then((tutorial) => {
-        console.log(">> Created tutorial: " + JSON.stringify(tutorial, null, 4));
-        return tutorial;
+      console.log(">> Created Tutorial: " + JSON.stringify(tutorial, null, 4));
+      return tutorial;
     })
     .catch((err) => {
-        console.log(">> Error while creating tutorial: ", err);
+      console.log(">> Error while creating Tutorial: ", err);
     });
-  };
+};
 
 
 
@@ -56,11 +57,26 @@ exports.findCommentById = (id) => {
       });
 };
 
-
 exports.findAll = () => {
-    return Tutorial.findAll({
-      include: ["comments"],
-    }).then((tutorials) => {
+  return Tutorial.findAll({
+    include: [
+      {
+        model: Tag,
+        as: "tags",
+        attributes: ["id", "name"],
+        through: {
+          attributes: [],
+        },
+        // through: {
+        //   attributes: ["tag_id", "tutorial_id"],
+        // },
+      },
+    ],
+  })
+    .then((tutorials) => {
       return tutorials;
+    })
+    .catch((err) => {
+      console.log(">> Error while retrieving Tutorials: ", err);
     });
 };
