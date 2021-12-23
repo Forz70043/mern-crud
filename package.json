@@ -1,0 +1,34 @@
+{
+  "name": "mern-crud",
+  "version": "1.0.0",
+  "description": "MySQL Express React Node backend app",
+  "main": "server.js",
+  "scripts": {
+    "test": "nodemon ./server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Forz70043/mern-crud.git"
+  },
+  "keywords": [
+    "node",
+    "react",
+    "express",
+    "mysql",
+    "backend",
+    "app"
+  ],
+  "author": "Forz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Forz70043/mern-crud/issues"
+  },
+  "homepage": "https://github.com/Forz70043/mern-crud#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "mysql2": "^2.3.3",
+    "sequelize": "^7.0.0-alpha.1"
+  }
+}
