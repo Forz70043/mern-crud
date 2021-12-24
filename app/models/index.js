@@ -19,6 +19,9 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
+db.user = require("../models/user.model.js")(sequelize, Sequelize);
+db.role = require("../models/role.model.js")(sequelize, Sequelize);
+
 db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
 db.comments = require("./comment.model.js")(sequelize, Sequelize);
 db.tag = require("./tag.model.js")(sequelize, Sequelize);
@@ -31,19 +34,33 @@ db.comments.belongsTo(db.tutorials, {
 });
 
 //Relazione molti a molti
-
-
 db.tutorials.belongsToMany(db.tag, {
   through: "tutorial_tag",
   as: "tags",
   foreignKey: "tutorial_id",
 });
 
-
 db.tag.belongsToMany(db.tutorials, {
   through: "tutorial_tag",
   as: "tutorials",
   foreignKey: "tag_id",
 });
+
+
+db.role.belongsToMany(db.user, {
+  through: "user_roles",
+  foreignKey: "roleId",
+  otherKey: "userId"
+});
+db.user.belongsToMany(db.role, {
+  through: "user_roles",
+  foreignKey: "userId",
+  otherKey: "roleId"
+});
+
+db.ROLES = ["user", "admin", "moderator"];
+
+
+
 
 module.exports = db;
