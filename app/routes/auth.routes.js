@@ -10,7 +10,6 @@ module.exports = function(app) {
     next();
   });
   
-  //console.log("req body", req.body);
 
   app.post(
     "/api/auth/signup",
