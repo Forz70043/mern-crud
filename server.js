@@ -90,11 +90,11 @@ function initial() {
 }
 
 db.sequelize.sync(
-  { force: true }
+  //{ force: true }
 ).then(() => {
   console.log("re-sync db if not exist table");
   //run();
-  initial();
+  //initial();
 });
 
 // routes

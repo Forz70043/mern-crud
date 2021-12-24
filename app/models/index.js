@@ -26,6 +26,8 @@ db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
 db.comments = require("./comment.model.js")(sequelize, Sequelize);
 db.tag = require("./tag.model.js")(sequelize, Sequelize);
 
+db.refreshToken = require("../models/refreshToken.model.js")(sequelize, Sequelize);
+
 //Relazione 1 a molti
 db.tutorials.hasMany(db.comments, { as: "comments" });
 db.comments.belongsTo(db.tutorials, {
@@ -57,6 +59,14 @@ db.user.belongsToMany(db.role, {
   foreignKey: "userId",
   otherKey: "roleId"
 });
+
+db.refreshToken.belongsTo(db.user, {
+  foreignKey: 'userId', targetKey: 'id'
+});
+db.user.hasOne(db.refreshToken, {
+  foreignKey: 'userId', targetKey: 'id'
+});
+
 
 db.ROLES = ["user", "admin", "moderator"];
 
