@@ -3,7 +3,12 @@ const cors = require("cors");
 require('dotenv').config();
 const app = express();
 const db = require("./app/models");
+const cookieSession = require("cookie-session");
 const tutorialController = require("./app/controllers/tutorial.controller");
+const Role = db.role;
+const User = db.User;
+
+
 
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -16,6 +21,14 @@ app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  cookieSession({
+    name: "app-session",
+    secret: process.env.APP_SECRET || "COOKIE_SECRET", // should use as secret environment variable
+    httpOnly: true
+  })
+);
 
 const run = async () => {
     /*
@@ -59,14 +72,34 @@ const run = async () => {
 
 };
 
+function initial() {
+  Role.create({
+    id: 1,
+    name: "user"
+  });
+ 
+  Role.create({
+    id: 2,
+    name: "moderator"
+  });
+ 
+  Role.create({
+    id: 3,
+    name: "admin"
+  });
+}
 
 db.sequelize.sync(
-    //{ force: true }
-    ).then(() => {
-        console.log("re-sync db if not exist table");
-        //run();
-    });
+  { force: true }
+).then(() => {
+  console.log("re-sync db if not exist table");
+  //run();
+  initial();
+});
 
+// routes
+require('./app/routes/auth.routes')(app);
+require('./app/routes/user.routes')(app);
 
 
 
@@ -75,8 +108,6 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to XXXXX application." });
 });
 
-//console.log("ENV : ",process.env);
-//console.log("ENV : ",env);
 
 // set port, listen for requests
 const PORT = process.env.PORT;
