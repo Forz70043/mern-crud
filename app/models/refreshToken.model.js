@@ -9,6 +9,9 @@ module.exports = (sequelize, Sequelize) => {
     expiryDate: {
       type: Sequelize.DATE,
     },
+    userId: {
+      type: Sequelize.INTEGER,
+    }
   });
 
   RefreshToken.createToken = async function (user) {
