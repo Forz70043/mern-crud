@@ -100,7 +100,7 @@ db.sequelize.sync(
 // routes
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
-
+require("./app/routes/tutorials.routes")(app);
 
 
 // simple route
